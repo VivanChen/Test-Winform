@@ -343,6 +343,8 @@ namespace WinFormsApp1.Function
                     //    return dt;
                     //}
 
+
+
                     //處理標題列
                     for (int i = headerRow.FirstCellNum; i < headerRow.LastCellNum; i++)
                     {
@@ -358,6 +360,7 @@ namespace WinFormsApp1.Function
                         row = sheet.GetRow(i);
                         if (row == null) continue;
                         if (string.IsNullOrEmpty(row.Cells[0].ToString())) continue;
+                       
                         for (int j = row.FirstCellNum; j < row.LastCellNum; j++)
                         {
                             if (row.GetCell(j) == null)
@@ -397,11 +400,20 @@ namespace WinFormsApp1.Function
                                     case "Error":
                                         dr[j] = row.GetCell(j).ToString().Replace("$", "");
                                         break;
-                                }
+                                     
+                                }                                
                             }
                         }
                         dt.Rows.Add(dr);
                     }
+
+                    //新增ID
+                    dt.Columns.Add("ID");
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        if (string.IsNullOrEmpty(dt.Rows[i]["ID"].ToString())) { dt.Rows[i]["ID"] = DateTime.Now.ToString("yyMMddHHmmssff") + i+1.ToString().PadLeft(5, '0'); };
+                    }
+
                 }
                 fs.Close();
             }

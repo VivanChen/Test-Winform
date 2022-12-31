@@ -33,6 +33,41 @@ namespace WinFormsApp1.SQL
 
 			return ExecuteDataRows(cmd, out message);
 		}
+		public static DataTable ExecuteDataRows(string sqlscript, out string message)
+		{
+			message = string.Empty;
+			SqlCommand cmd = SetSqlCommand(sqlscript, out message);
+
+			if (message != string.Empty)
+			{
+				cmd.Connection.Close();
+				cmd.Connection.Dispose();
+				return null;
+			}
+
+			return ExecuteDataRows(cmd, out message);
+		}
+		private static SqlCommand SetSqlCommand(string sqlscript,  out string message)
+		{
+			message = string.Empty;
+
+			SqlCommand cmd = new SqlCommand();
+
+			try
+			{
+				SQLConn conn = new SQLConn(Commons.DataBase, Commons.Server);
+				cmd.Connection = conn.conn;
+				cmd.CommandType = CommandType.Text;
+				cmd.CommandTimeout = 18000;
+				cmd.CommandText = sqlscript;
+			}
+			catch (SqlException e)
+			{
+				message = e.Message;
+			}
+
+			return cmd;
+		}
 		private static SqlCommand SetSqlCommand(string sqlscript, Dictionary<string, string> parameterlist, out string message)
 		{
 			message = string.Empty;

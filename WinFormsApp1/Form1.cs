@@ -396,7 +396,7 @@ namespace WinFormsApp1
 
         private void 保險業務人員報名系統ToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            Form6 f = new Form6(Account);//產生Form2的物件，才可以使用它所提供的Method
+            Form6 f = new Form6();//產生Form2的物件，才可以使用它所提供的Method
             this.Hide();
             f.ShowDialog();
             this.Dispose();
